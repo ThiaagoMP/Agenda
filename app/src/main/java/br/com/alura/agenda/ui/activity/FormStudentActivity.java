@@ -43,9 +43,8 @@ public class FormStudentActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int itemId = item.getItemId();
-        if (itemId == R.id.activity_form_student_menu_save) {
+        if (itemId == R.id.activity_form_student_menu_save)
             finishForm();
-        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -69,11 +68,10 @@ public class FormStudentActivity extends AppCompatActivity {
 
     private void finishForm() {
         fillStudent();
-        if (student.idIsValid()) {
+        if (student.idIsValid())
             dao.edit(student);
-        } else {
+        else
             dao.save(student);
-        }
         finish();
     }
 
@@ -84,12 +82,12 @@ public class FormStudentActivity extends AppCompatActivity {
     }
 
     private void fillStudent() {
-        String nome = fieldName.getText().toString();
-        String telefone = fieldPhone.getText().toString();
+        String name = fieldName.getText().toString();
+        String phone = fieldPhone.getText().toString();
         String email = fieldEmail.getText().toString();
 
-        student.setName(nome);
-        student.setPhone(telefone);
+        student.setName(name);
+        student.setPhone(phone);
         student.setEmail(email);
     }
 }

@@ -12,31 +12,29 @@ public class StudentDAO {
     private final static List<Student> students = new ArrayList<>();
     private static int counterIds = 1;
 
-    public void save(Student student) {
+    public void  save(Student student) {
         student.setId(counterIds);
         students.add(student);
-        atualizeIds();
+        actualizeIds();
     }
 
-    private void atualizeIds() {
+    private void actualizeIds() {
         counterIds++;
     }
 
     public void edit(Student student) {
-        Student studentEncontrado = findStudentById(student);
-        if (studentEncontrado != null) {
-            int posicaoDoAluno = students.indexOf(studentEncontrado);
-            students.set(posicaoDoAluno, student);
+        Student studentFind = findStudentById(student);
+        if (studentFind != null) {
+            int studentPosition = students.indexOf(studentFind);
+            students.set(studentPosition, student);
         }
     }
 
     @Nullable
     private Student findStudentById(Student student) {
-        for (Student a :
-                students) {
-            if (a.getId() == student.getId()) {
+        for (Student a : students) {
+            if (a.getId() == student.getId())
                 return a;
-            }
         }
         return null;
     }

@@ -13,12 +13,12 @@ import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import br.com.alura.agenda.R;
 import br.com.alura.agenda.dao.StudentDAO;
 import br.com.alura.agenda.model.Student;
+import br.com.alura.agenda.ui.activity.adapter.ListAdapterStudent;
 
 import static br.com.alura.agenda.ui.activity.ConstantsActivities.KEY_STUDENT;
 
@@ -26,7 +26,7 @@ public class ListStudentActivity extends AppCompatActivity {
 
     public static final String TITLE_APPBAR = "Lista de alunos";
     private final StudentDAO dao = new StudentDAO();
-    private ArrayAdapter<Student> adapter;
+    private ListAdapterStudent adapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,8 +35,7 @@ public class ListStudentActivity extends AppCompatActivity {
         setTitle(TITLE_APPBAR);
         configureFabNewStudent();
         configureList();
-        dao.save(new Student("Alex", "1122223333", "alex@alura.com.br"));
-        dao.save(new Student("Fran", "1122223333", "fran@gmail.com"));
+        dao.save(new Student("Thiago", "43999656360", "thiaago.mp@gmail.com"));
     }
 
     @Override
@@ -53,8 +52,8 @@ public class ListStudentActivity extends AppCompatActivity {
         if (itemId == R.id.activity_list_students_menu_remove) {
             AdapterView.AdapterContextMenuInfo menuInfo =
                     (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-            Student studentEscolhido = adapter.getItem(menuInfo.position);
-            remove(studentEscolhido);
+            Student studentFill = adapter.getItem(menuInfo.position);
+            remove(studentFill);
         }
 
         return super.onContextItemSelected(item);
@@ -62,16 +61,7 @@ public class ListStudentActivity extends AppCompatActivity {
 
     private void configureFabNewStudent() {
         FloatingActionButton buttonNewStudent = findViewById(R.id.activity_list_students_fab_new_student);
-        buttonNewStudent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openFormModePutStudent();
-            }
-        });
-    }
-
-    private void openFormModePutStudent() {
-        startActivity(new Intent(this, FormStudentActivity.class));
+        buttonNewStudent.setOnClickListener(view -> openFormModePutStudent());
     }
 
     @Override
@@ -86,10 +76,10 @@ public class ListStudentActivity extends AppCompatActivity {
     }
 
     private void configureList() {
-        ListView listaDeAlunos = findViewById(R.id.activity_list_students_listview);
-        configuraAdapter(listaDeAlunos);
-        configureListenerClickItem(listaDeAlunos);
-        registerForContextMenu(listaDeAlunos);
+        ListView listStudents = findViewById(R.id.activity_list_students_listview);
+        configureAdapter(listStudents);
+        configureListenerClickItem(listStudents);
+        registerForContextMenu(listStudents);
     }
 
     private void remove(Student student) {
@@ -98,25 +88,24 @@ public class ListStudentActivity extends AppCompatActivity {
     }
 
     private void configureListenerClickItem(ListView listStudents) {
-        listStudents.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int posicao, long id) {
-                Student studentEscolhido = (Student) adapterView.getItemAtPosition(posicao);
-                abreFormularioModoEditaAluno(studentEscolhido);
-            }
+        listStudents.setOnItemClickListener((adapterView, view, position, id) -> {
+            Student student = (Student) adapterView.getItemAtPosition(position);
+            openFormModeEditStudent(student);
         });
     }
 
-    private void abreFormularioModoEditaAluno(Student student) {
-        Intent vaiParaFormularioActivity = new Intent(ListStudentActivity.this, FormStudentActivity.class);
-        vaiParaFormularioActivity.putExtra(KEY_STUDENT, student);
-        startActivity(vaiParaFormularioActivity);
+    private void openFormModePutStudent() {
+        startActivity(new Intent(this, FormStudentActivity.class));
     }
 
-    private void configuraAdapter(ListView listaDeAlunos) {
-        adapter = new ArrayAdapter<>(
-                this,
-                android.R.layout.simple_list_item_1);
-        listaDeAlunos.setAdapter(adapter);
+    private void openFormModeEditStudent(Student student) {
+        Intent formActivityIntent = new Intent(ListStudentActivity.this, FormStudentActivity.class);
+        formActivityIntent.putExtra(KEY_STUDENT, student);
+        startActivity(formActivityIntent);
+    }
+
+    private void configureAdapter(ListView listView) {
+        adapter = new ListAdapterStudent(this);
+        listView.setAdapter(adapter);
     }
 }
