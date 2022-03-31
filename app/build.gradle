@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 30
     defaultConfig {
-        applicationId "br.com.alura.agenda"
+        applicationId "br.com.thiago.note"
         minSdkVersion 19
         targetSdkVersion 30
         versionCode 1

@@ -1,4 +1,4 @@
-package br.com.alura.agenda.ui.activity;
+package br.com.thiago.note.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,12 +15,12 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import br.com.alura.agenda.R;
-import br.com.alura.agenda.dao.StudentDAO;
-import br.com.alura.agenda.model.Student;
-import br.com.alura.agenda.ui.activity.adapter.ListAdapterStudent;
+import br.com.thiago.note.R;
+import br.com.thiago.note.dao.StudentDAO;
+import br.com.thiago.note.model.Student;
+import br.com.thiago.note.ui.activity.adapter.ListAdapterStudent;
 
-import static br.com.alura.agenda.ui.activity.ConstantsActivities.KEY_STUDENT;
+import static br.com.thiago.note.ui.activity.ConstantsActivities.KEY_STUDENT;
 
 public class ListStudentActivity extends AppCompatActivity {
 
@@ -35,7 +35,6 @@ public class ListStudentActivity extends AppCompatActivity {
         setTitle(TITLE_APPBAR);
         configureFabNewStudent();
         configureList();
-        dao.save(new Student("Thiago", "43999656360", "thiaago.mp@gmail.com"));
     }
 
     @Override
@@ -71,8 +70,7 @@ public class ListStudentActivity extends AppCompatActivity {
     }
 
     private void actualizeStudents() {
-        adapter.clear();
-        adapter.addAll(dao.getStudents());
+        adapter.actualize(dao);
     }
 
     private void configureList() {

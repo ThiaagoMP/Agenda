@@ -1,11 +1,11 @@
-package br.com.alura.agenda.dao;
+package br.com.thiago.note.dao;
 
 import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.alura.agenda.model.Student;
+import br.com.thiago.note.model.Student;
 
 public class StudentDAO {
 

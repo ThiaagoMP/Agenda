@@ -1,4 +1,4 @@
-package br.com.alura.agenda.model;
+package br.com.thiago.note.model;
 
 import androidx.annotation.NonNull;
 

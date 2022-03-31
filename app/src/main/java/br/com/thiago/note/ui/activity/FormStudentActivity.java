@@ -1,19 +1,18 @@
-package br.com.alura.agenda.ui.activity;
+package br.com.thiago.note.ui.activity;
+
+import static br.com.thiago.note.ui.activity.ConstantsActivities.KEY_STUDENT;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 
-import br.com.alura.agenda.R;
-import br.com.alura.agenda.dao.StudentDAO;
-import br.com.alura.agenda.model.Student;
+import androidx.appcompat.app.AppCompatActivity;
 
-import static br.com.alura.agenda.ui.activity.ConstantsActivities.KEY_STUDENT;
+import br.com.thiago.note.R;
+import br.com.thiago.note.dao.StudentDAO;
+import br.com.thiago.note.model.Student;
 
 public class FormStudentActivity extends AppCompatActivity {
 
