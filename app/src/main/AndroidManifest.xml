@@ -13,7 +13,8 @@
         android:theme="@style/AppTheme">
         <activity
             android:name="br.com.thiago.note.ui.activity.ListStudentActivity"
-            tools:ignore="MissingClass">
+            tools:ignore="MissingClass"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

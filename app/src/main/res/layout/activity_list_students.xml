@@ -13,7 +13,8 @@
         android:layout_margin="16dp"
         android:clickable="true"
         android:src="@drawable/ic_action_new_student"
-        android:focusable="true" />
+        android:focusable="true"
+        android:contentDescription="TODO" />
 
     <ListView
         android:id="@+id/activity_list_students_listview"
