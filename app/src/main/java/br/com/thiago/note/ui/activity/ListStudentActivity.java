@@ -1,5 +1,8 @@
 package br.com.thiago.note.ui.activity;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -45,17 +48,29 @@ public class ListStudentActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onContextItemSelected(MenuItem item) {
+    public boolean onContextItemSelected(final MenuItem item) {
 
         int itemId = item.getItemId();
         if (itemId == R.id.activity_list_students_menu_remove) {
-            AdapterView.AdapterContextMenuInfo menuInfo =
-                    (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-            Student studentFill = adapter.getItem(menuInfo.position);
-            remove(studentFill);
+            createDialogConfirmExclusionStudent(item);
         }
 
         return super.onContextItemSelected(item);
+    }
+
+    private void createDialogConfirmExclusionStudent(final MenuItem item) {
+        new AlertDialog
+                .Builder(this)
+                .setTitle("Removendo aluno")
+                .setMessage("Tem certeza que quer remover o aluno?")
+                .setPositiveButton("Sim", (dialogInterface, i) -> {
+                    AdapterView.AdapterContextMenuInfo menuInfo =
+                            (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+                    Student studentFill = adapter.getItem(menuInfo.position);
+                    remove(studentFill);
+                })
+                .setNegativeButton("Não", null)
+                .show();
     }
 
     private void configureFabNewStudent() {
