@@ -1,4 +1,4 @@
-package br.com.thiago.note.ui.activity.adapter;
+package br.com.thiago.note.ui.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -60,7 +60,7 @@ public class ListAdapterStudent extends BaseAdapter {
                 .inflate(R.layout.item_student, viewGroup, false);
     }
 
-    public void actualize(StudentDAO studentDAO) {
+    public void actualizeStudents(StudentDAO studentDAO) {
         this.students.clear();
         students.addAll(studentDAO.getStudents());
         notifyDataSetChanged();

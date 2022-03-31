@@ -1,6 +1,5 @@
 package br.com.thiago.note.ui.activity;
 
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -13,13 +12,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
 
 import br.com.thiago.note.R;
 import br.com.thiago.note.dao.StudentDAO;
 import br.com.thiago.note.model.Student;
-import br.com.thiago.note.ui.activity.adapter.ListAdapterStudent;
+import br.com.thiago.note.ui.activity.actions.ConfigureAdapter;
+import br.com.thiago.note.ui.activity.actions.DialogBuilderConfirmExclusionStudent;
+import br.com.thiago.note.ui.adapter.ListAdapterStudent;
 
 import static br.com.thiago.note.ui.activity.ConstantsActivities.KEY_STUDENT;
 
@@ -36,6 +36,12 @@ public class ListStudentActivity extends AppCompatActivity {
         setTitle(TITLE_APPBAR);
         configureFabNewStudent();
         configureList();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        adapter.actualizeStudents(dao);
     }
 
     @Override
@@ -57,18 +63,7 @@ public class ListStudentActivity extends AppCompatActivity {
     }
 
     private void createDialogConfirmExclusionStudent(final MenuItem item) {
-        new AlertDialog
-                .Builder(this)
-                .setTitle("Removendo aluno")
-                .setMessage("Tem certeza que quer remover o aluno?")
-                .setPositiveButton("Sim", (dialogInterface, i) -> {
-                    AdapterView.AdapterContextMenuInfo menuInfo =
-                            (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-                    Student studentFill = adapter.getItem(menuInfo.position);
-                    remove(studentFill);
-                })
-                .setNegativeButton("Não", null)
-                .show();
+        DialogBuilderConfirmExclusionStudent.dialogBuilder(this, item, adapter, dao);
     }
 
     private void configureFabNewStudent() {
@@ -76,26 +71,11 @@ public class ListStudentActivity extends AppCompatActivity {
         buttonNewStudent.setOnClickListener(view -> openFormModePutStudent());
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        actualizeStudents();
-    }
-
-    private void actualizeStudents() {
-        adapter.actualize(dao);
-    }
-
     private void configureList() {
         ListView listStudents = findViewById(R.id.activity_list_students_listview);
-        configureAdapter(listStudents);
+        adapter = ConfigureAdapter.configureAdapter(listStudents, this);
         configureListenerClickItem(listStudents);
         registerForContextMenu(listStudents);
-    }
-
-    private void remove(Student student) {
-        dao.remove(student);
-        adapter.remove(student);
     }
 
     private void configureListenerClickItem(ListView listStudents) {
@@ -113,10 +93,5 @@ public class ListStudentActivity extends AppCompatActivity {
         Intent formActivityIntent = new Intent(ListStudentActivity.this, FormStudentActivity.class);
         formActivityIntent.putExtra(KEY_STUDENT, student);
         startActivity(formActivityIntent);
-    }
-
-    private void configureAdapter(ListView listView) {
-        adapter = new ListAdapterStudent(this);
-        listView.setAdapter(adapter);
     }
 }
